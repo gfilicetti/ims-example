@@ -27,8 +27,8 @@ do
     ASSET_ID=$(printf "%04g$i")
     CREATE_TIME=$(gsutil ls -l gs://$IMS_BUCKET/$STORAGE_INPUT_VIDEO | awk {'print $2'} | head -c -2)
 
-    echo "Found file: ${curFile}\n"
-    echo "Indexing with AssetID: ${ASSET_ID}, uploadDate: ${CREATE_TIME} and archive: ${ARCHIVE}\n"
+    printf "Found file: ${curFile}\n"
+    printf "Indexing with AssetID: ${ASSET_ID}, uploadDate: ${CREATE_TIME} and archive: ${ARCHIVE}\n"
 
     JSON_STRING=$(jq -n \
                     --arg bn "$IMS_BUCKET" \
@@ -46,8 +46,6 @@ do
                             "archive": $ar
                         }
                     } }' )
-
-    # echo $JSON_STRING
 
     ((i+=1))
 
