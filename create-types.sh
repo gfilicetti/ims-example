@@ -10,6 +10,7 @@ COMPLEXTYPE_ID=newsclip
 ASSETTYPE_ID=newsclipfile
 
 #type vars
+# NOTE: archive field can be one of "KTTV", "WFLD", "FMN" (aka MovieTone)
 COMPLEXTYPE_JSON=$(jq -n \
     '{
         "fields": {

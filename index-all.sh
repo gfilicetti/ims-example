@@ -9,7 +9,8 @@ LOCATION=us-west2
 #asset vars
 COMPLEXTYPE_ID=newsclip
 ASSETTYPE_ID=newsclipfile
-ARCHIVE=movietone
+# NOTE: ARCHIVE can be one of "KTTV", "WFLD", "FMN" (aka MovieTone)
+ARCHIVE=FMN
 
 #authToken
 authToken=$(gcloud auth application-default print-access-token)
