@@ -15,11 +15,11 @@ LOCATION=us-west2
 COMPLEXTYPE_ID=fxvideo
 ASSETTYPE_ID=fxvideofile
 
-#authToken
-authToken=$(gcloud auth application-default print-access-token)
-
 # number of assets
 NUM_ASSETS=5
+
+#authToken
+authToken=$(gcloud auth application-default print-access-token)
 
 printf "===============================\n"
 printf "== CHECKING STATUS ON ASSETS ==\n"
