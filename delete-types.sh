@@ -13,17 +13,17 @@ ASSETTYPE_ID=newsclipfile
 authToken=$(gcloud auth application-default print-access-token)
 
 #get ComplexType
-printf "=============================\n"
-printf "== GETTING $COMPLEXTYPE_ID ==\n" 
-printf "=============================\n"
-curl --silent -X GET \
+printf "==============================\n"
+printf "== REMOVING $COMPLEXTYPE_ID ==\n"
+printf "==============================\n"
+curl --silent -X DELETE \
 -H "Authorization: Bearer $authToken" \
 "https://mediaasset.googleapis.com/v1/projects/$PROJECT_ID/locations/$LOCATION/complexTypes/$COMPLEXTYPE_ID"
 
 #get AssetType
-printf "===========================\n"
-printf "== GETTING $ASSETTYPE_ID ==\n" 
-printf "===========================\n"
-curl --silent -X GET \
+printf "============================\n"
+printf "== REMOVING $ASSETTYPE_ID ==\n" 
+printf "============================\n"
+curl --silent -X DELETE \
 -H "Authorization: Bearer $authToken" \
 "https://mediaasset.googleapis.com/v1/projects/$PROJECT_ID/locations/$LOCATION/assetTypes/$ASSETTYPE_ID"
