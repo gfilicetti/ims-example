@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #project vars
-IMS_BUCKET=ims-assets-1
 PROJECT_ID=fox-ims-pilot
 LOCATION=us-west2
 

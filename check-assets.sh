@@ -1,19 +1,13 @@
 #!/bin/bash
 
 #project vars
-# IMS_BUCKET=ims-assets-1
-# PROJECT_ID=fox-ims-pilot
-IMS_BUCKET=ims-script-testing
-PROJECT_ID=ims-script-testing
-LOCATION=us-west2
+PROJECT_ID=fox-ims-pilot
 
 #asset vars
-# COMPLEXTYPE_ID=newsclip
-# ASSETTYPE_ID=newsclipfile
-# NOTE: ARCHIVE can be one of "KTTV", "WFLD", "FMN" (aka MovieTone)
-# ARCHIVE=FMN
-COMPLEXTYPE_ID=fxvideo
-ASSETTYPE_ID=fxvideofile
+COMPLEXTYPE_ID=newsclip
+ASSETTYPE_ID=newsclipfile
+# NOTE: ARCHIVE can be one of "kttv", "wfld", "fmn" (aka MovieTone)
+ARCHIVE=fmn
 
 # number of assets
 NUM_ASSETS=5

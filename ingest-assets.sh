@@ -2,11 +2,11 @@
 #set defaults for all assettypes and complextypes in storage bucket
 
 #project vars
-IMS_BUCKET=ims-assets-1
 PROJECT_ID=fox-ims-pilot
 LOCATION=us-west2
 
 #asset vars
+IMS_BUCKET=ims-assets-2
 COMPLEXTYPE_ID=newsclip
 ASSETTYPE_ID=newsclipfile
 # NOTE: ARCHIVE can be one of "kttv", "wfld", "fmn" (aka MovieTone)
