@@ -23,12 +23,19 @@ printf "== ADDING ASSETS TO INDEX ==\n"
 printf "============================\n"
 for curFile in $(gsutil ls -r gs://$IMS_BUCKET/$ARCHIVE/*)
 do 
-    STORAGE_INPUT_VIDEO=${curFile#gs://$IMS_BUCKET/$ARCHIVE}
+    STORAGE_INPUT_VIDEO=${curFile#gs://$IMS_BUCKET/$ARCHIVE/}
     ASSET_ID=$(printf "%04g$i")
     CREATE_TIME=$(gsutil ls -l gs://$IMS_BUCKET/$ARCHIVE/$STORAGE_INPUT_VIDEO | awk {'print $2'} | head -c -2)
 
-    printf "Found file: ${curFile}\n"
-    printf "Indexing with AssetID: ${ASSET_ID}, uploadDate: ${CREATE_TIME} and archive: ${ARCHIVE}\n"
+    # if the current file is just a folder, then skip to the next file
+    [[ ! $STORAGE_INPUT_VIDEO ]] && continue
+
+    printf "Processing file: ${curFile}\n"
+    printf "Ingesting with: \n"
+    printf "\tAssetID: ${ASSET_ID}, \n"
+    printf "\tobject: $ARCHIVE/$STORAGE_INPUT_VIDEO, \n"
+    printf "\tuploadDate: ${CREATE_TIME}, \n"
+    printf "\tarchive: ${ARCHIVE}\n"
 
     JSON_STRING=$(jq -n \
                     --arg bn "$IMS_BUCKET" \
