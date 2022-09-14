@@ -9,8 +9,8 @@ LOCATION=us-west2
 #asset vars
 COMPLEXTYPE_ID=newsclip
 ASSETTYPE_ID=newsclipfile
-# NOTE: ARCHIVE can be one of "KTTV", "WFLD", "FMN" (aka MovieTone)
-ARCHIVE=FMN
+# NOTE: ARCHIVE can be one of "kttv", "wfld", "fmn" (aka MovieTone)
+ARCHIVE=kttv
 
 #authToken
 authToken=$(gcloud auth application-default print-access-token)
@@ -23,16 +23,16 @@ printf "== ADDING ASSETS TO INDEX ==\n"
 printf "============================\n"
 for curFile in $(gsutil ls -r gs://$IMS_BUCKET/*)
 do 
-    STORAGE_INPUT_VIDEO=${curFile#gs://$IMS_BUCKET/}
+    STORAGE_INPUT_VIDEO=${curFile#gs://$IMS_BUCKET/$ARCHIVE}
     ASSET_ID=$(printf "%04g$i")
-    CREATE_TIME=$(gsutil ls -l gs://$IMS_BUCKET/$STORAGE_INPUT_VIDEO | awk {'print $2'} | head -c -2)
+    CREATE_TIME=$(gsutil ls -l gs://$IMS_BUCKET/$ARCHIVE/$STORAGE_INPUT_VIDEO | awk {'print $2'} | head -c -2)
 
     printf "Found file: ${curFile}\n"
     printf "Indexing with AssetID: ${ASSET_ID}, uploadDate: ${CREATE_TIME} and archive: ${ARCHIVE}\n"
 
     JSON_STRING=$(jq -n \
                     --arg bn "$IMS_BUCKET" \
-                    --arg on "$STORAGE_INPUT_VIDEO" \
+                    --arg on "$ARCHIVE/$STORAGE_INPUT_VIDEO" \
                     --arg ct "$CREATE_TIME" \
                     --arg ar "$ARCHIVE" \
                     '{ "metadata":
