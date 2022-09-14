@@ -120,7 +120,7 @@ then
         sleep 7
     done
 
-    echo "\n"
+    echo -e "\n"
 
     #get AssetType
     result=$(curl --silent -X GET \

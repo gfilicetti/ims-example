@@ -20,6 +20,9 @@ curl --silent -X DELETE \
 -H "Authorization: Bearer $authToken" \
 "https://mediaasset.googleapis.com/v1/projects/$PROJECT_ID/locations/$LOCATION/assetTypes/$ASSETTYPE_ID"
 
+# sleep for a bit for AssetType to be fully removed
+sleep 5
+
 # delete ComplexType
 printf "==============================\n"
 printf "== REMOVING $COMPLEXTYPE_ID ==\n"
