@@ -38,11 +38,11 @@ do
                     '{ "metadata":
                     { 
                         "video_file": { 
-                        "bucket": $bn, 
-                        "object": $on 
+                            "bucket": $bn, 
+                            "object": $on 
                         },
                         "clipMetadata": { 
-                            "uploadDate": $ct
+                            "uploadDate": $ct,
                             "archive": $ar
                         }
                     } }' )
