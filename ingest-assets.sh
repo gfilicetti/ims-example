@@ -56,6 +56,8 @@ do
 
     ((i+=1))
 
+    printf "Making API request with JSON: \n$JSON_STRING\n"
+
     curl -X POST \
     -H "Authorization: Bearer "$(gcloud auth application-default print-access-token) \
     -H "Content-Type: application/json; charset=utf-8" \
