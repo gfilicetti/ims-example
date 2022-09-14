@@ -32,9 +32,9 @@ do
 
     printf "Processing file: ${curFile}\n"
     printf "Ingesting with: \n"
-    printf "\tAssetID: ${ASSET_ID}, \n"
-    printf "\tobject: $ARCHIVE/$STORAGE_INPUT_VIDEO, \n"
-    printf "\tuploadDate: ${CREATE_TIME}, \n"
+    printf "\tAssetID: ${ASSET_ID} \n"
+    printf "\tobject: $ARCHIVE/$STORAGE_INPUT_VIDEO \n"
+    printf "\tuploadDate: ${CREATE_TIME} \n"
     printf "\tarchive: ${ARCHIVE}\n"
 
     JSON_STRING=$(jq -n \
