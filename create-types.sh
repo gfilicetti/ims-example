@@ -120,6 +120,8 @@ then
         sleep 7
     done
 
+    echo "\n"
+
     #get AssetType
     result=$(curl --silent -X GET \
     -H "Authorization: Bearer $authToken" \
