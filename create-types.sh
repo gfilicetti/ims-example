@@ -13,8 +13,12 @@ ASSETTYPE_ID=newsclipfile
 COMPLEXTYPE_JSON=$(jq -n \
     '{
         "fields": {
-            "createDate": {
+            "uploadDate": {
                 "type": "datetime", 
+                "required": "true"
+            },
+            "archive": {
+                "type": "string", 
                 "required": "true"
             }
         },
@@ -31,13 +35,13 @@ ASSETTYPE_JSON=$(jq -n \
             } 
         }, 
         "indexedFieldConfigs": { 
-            "metadata.clipMetadata.createDate": { 
-                "expression": "metadata.clipMetadata.createDate" 
-                } 
+            "metadata.clipMetadata.uploadDate": { 
+                "expression": "metadata.clipMetadata.uploadDate" 
+            } 
         },
         "sortOrder": {
             "descending": "true",
-            "field": "metadata.clipMetadata.createDate"
+            "field": "metadata.clipMetadata.uploadDate"
         }, 
         "mediaType": "VIDEO" }' )
 

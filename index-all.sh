@@ -9,6 +9,7 @@ LOCATION=us-west2
 #asset vars
 COMPLEXTYPE_ID=newsclip
 ASSETTYPE_ID=newsclipfile
+ARCHIVE=movietone
 
 #authToken
 authToken=$(gcloud auth application-default print-access-token)
@@ -26,12 +27,13 @@ do
     CREATE_TIME=$(gsutil ls -l gs://$IMS_BUCKET/$STORAGE_INPUT_VIDEO | awk {'print $2'} | head -c -2)
 
     echo "Found file: ${curFile}\n"
-    echo "Indexing with AssetID: ${ASSET_ID} and CreateTime: ${CREATE_TIME}\n"
+    echo "Indexing with AssetID: ${ASSET_ID}, uploadDate: ${CREATE_TIME} and archive: ${ARCHIVE}\n"
 
     JSON_STRING=$(jq -n \
                     --arg bn "$IMS_BUCKET" \
                     --arg on "$STORAGE_INPUT_VIDEO" \
                     --arg ct "$CREATE_TIME" \
+                    --arg ar "$ARCHIVE" \
                     '{ "metadata":
                     { 
                         "video_file": { 
@@ -39,7 +41,8 @@ do
                         "object": $on 
                         },
                         "clipMetadata": { 
-                            "createDate": $ct
+                            "uploadDate": $ct
+                            "archive": $ar
                         }
                     } }' )
 
