@@ -21,7 +21,7 @@ i=1
 printf "============================\n"
 printf "== ADDING ASSETS TO INDEX ==\n" 
 printf "============================\n"
-for curFile in $(gsutil ls -r gs://$IMS_BUCKET/*)
+for curFile in $(gsutil ls -r gs://$IMS_BUCKET/$ARCHIVE/*)
 do 
     STORAGE_INPUT_VIDEO=${curFile#gs://$IMS_BUCKET/$ARCHIVE}
     ASSET_ID=$(printf "%04g$i")
