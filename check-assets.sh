@@ -2,6 +2,7 @@
 
 #project vars
 PROJECT_ID=fox-ims-pilot
+LOCATION=us-west2
 
 #asset vars
 COMPLEXTYPE_ID=newsclip
