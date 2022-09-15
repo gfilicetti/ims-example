@@ -10,7 +10,7 @@ ASSETTYPE_ID=newsclipfile
 ARCHIVE=fmn
 
 # number of assets
-NUM_ASSETS=5
+NUM_ASSETS=2
 
 #authToken
 authToken=$(gcloud auth application-default print-access-token)
