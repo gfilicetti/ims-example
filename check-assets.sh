@@ -20,7 +20,7 @@ printf "===============================\n"
 printf "== CHECKING STATUS ON ASSETS ==\n"
 printf "===============================\n"
 
-for (( j = ${NUM_ASSETS}-1; j>0; j--)) 
+for (( j = ${NUM_ASSETS}; j>0; j--)) 
 do
     ASSET_ID=$(printf "%04g$j")
 
