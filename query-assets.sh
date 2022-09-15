@@ -6,11 +6,15 @@ ARGS=$@
 
 #project vars
 PROJECT_ID=fox-ims-pilot
+#PROJECT_ID=ims-script-testing
 LOCATION=us-west2
 
 #asset vars
 COMPLEXTYPE_ID=newsclip
 ASSETTYPE_ID=newsclipfile
+# COMPLEXTYPE_ID=fxvideo
+# ASSETTYPE_ID=fxvideofile
+
 # NOTE: ARCHIVE can be one of "kttv", "wfld", "fmn" (aka MovieTone)
 ARCHIVE=kttv
 PAGE_SIZE=10
