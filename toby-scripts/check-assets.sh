@@ -16,9 +16,6 @@ authToken=$(gcloud auth application-default print-access-token)
 numOfAssets=5
 
 #index all assets as $COMPLEX_TYPE
-for f in $(gsutil ls -r gs://$IMS_BUCKET/*)
-do 
-
 for (( j = $numOfAssets; j>0; j--)) 
 do
     printf "%04g$j\n"
