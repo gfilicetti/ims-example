@@ -73,5 +73,6 @@ do
     "https://mediaasset.googleapis.com/v1/projects/$PROJECT_ID/locations/$LOCATION/assetTypes/$ASSETTYPE_ID/assets?asset_id=$ASSET_ID"
 
     printf "== WAITING FOR 1s ==\n"
+    sleep 1
 
 done
