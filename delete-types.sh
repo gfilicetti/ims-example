@@ -1,12 +1,14 @@
 #!/bin/bash
-
-#project vars
-PROJECT_ID=fox-ims-pilot
-LOCATION=us-west2
+# delete-types.sh COMPLEX_TYPE ASSET_TYPE [LOCATION] [PROJECT_ID]
+# Delete the complex and asset types specified
 
 #asset vars
-COMPLEXTYPE_ID=newsclip
-ASSETTYPE_ID=newsclipfile
+COMPLEXTYPE_ID=${1:-"newsclip"}
+ASSETTYPE_ID=${2:-"newsclipfile"}
+
+#project vars
+LOCATION=${3:-"us-west2"}
+PROJECT_ID=${4:-$(gcloud config get project)}
 
 #authToken
 authToken=$(gcloud auth application-default print-access-token)

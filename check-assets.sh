@@ -1,17 +1,14 @@
 #!/bin/bash
-
-#project vars
-PROJECT_ID=fox-ims-pilot
-LOCATION=us-west2
+# check-assets.sh NUMBER_OF_ASSETS ASSET_TYPE [LOCATION] [PROJECT_ID]
+# Check the status on the assets of the given type. Only check for the number of assets given.
 
 #asset vars
-COMPLEXTYPE_ID=newsclip
-ASSETTYPE_ID=newsclipfile
-# NOTE: ARCHIVE can be one of "kttv", "wfld", "fmn" (aka MovieTone)
-ARCHIVE=fmn
+NUM_ASSETS=${1:-"2"}
+ASSETTYPE_ID=${2:-"newsclipfile"}
 
-# number of assets
-NUM_ASSETS=2
+#project vars
+LOCATION=${3:-"us-west2"}
+PROJECT_ID=${4:-$(gcloud config get project)}
 
 #authToken
 authToken=$(gcloud auth application-default print-access-token)

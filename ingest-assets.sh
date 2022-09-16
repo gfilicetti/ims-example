@@ -1,23 +1,21 @@
 #!/bin/bash
-#set defaults for all assettypes and complextypes in storage bucket
-
-#project vars
-PROJECT_ID=fox-ims-pilot
-LOCATION=us-west2
+# ingest-assets.sh GCS_BUCKET_NAME ARCHIVE ASSET_TYPE [LOCATION] [PROJECT_ID]
+# Ingest all the assets in the given GCS bucket in the folder name that matches ARCHIVE
 
 #asset vars
-IMS_BUCKET=ims-assets-2
-COMPLEXTYPE_ID=newsclip
-ASSETTYPE_ID=newsclipfile
-# NOTE: ARCHIVE can be one of "kttv", "wfld", "fmn" (aka MovieTone)
-ARCHIVE=kttv
+IMS_BUCKET=${1:-"ims-assets-2"}
+ARCHIVE=${2:-"kttv"}
+ASSETTYPE_ID=${3:-"newsclipfile"}
+
+#project vars
+LOCATION=${4:-"us-west2"}
+PROJECT_ID=${5:-$(gcloud config get project)}
 
 #authToken
 authToken=$(gcloud auth application-default print-access-token)
 
 i=1
 
-#index all assets as $COMPLEX_TYPE
 printf "============================\n"
 printf "== ADDING ASSETS TO INDEX ==\n" 
 printf "============================\n"
@@ -32,7 +30,7 @@ do
 
     printf "Processing file: ${curFile}\n"
     printf "Ingesting with: \n"
-    printf "\tAssetID: ${ASSET_ID} \n"
+    printf "\tassetID: ${ASSET_ID} \n"
     printf "\tobject: $ARCHIVE/$STORAGE_INPUT_VIDEO \n"
     printf "\tuploadDate: ${CREATE_TIME} \n"
     printf "\tarchive: ${ARCHIVE}\n"

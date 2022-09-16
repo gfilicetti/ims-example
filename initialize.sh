@@ -1,7 +1,8 @@
 #!/bin/bash
+# initialize IMS for this project by granting IAM pers to read storage
 
 #project vars
-PROJECT_ID=fox-ims-pilot
+PROJECT_ID=${1:-$(gcloud config get project)}
 
 printf "=======================================\n"
 printf "== INITIALIZING PROJECT FOR IMS APIs ==\n"

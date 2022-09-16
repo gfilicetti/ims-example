@@ -1,19 +1,17 @@
 #!/bin/bash
-#set defaults for all assettypes and complextypes in storage bucket
+# query-assets.sh "QUERY STRING" ASSET_TYPE [LOCATION] [PROJECT_ID]
+# Queries IMS using the query string. Query string is expected as the first parameter 
+# so you must enclose the query in quotes
 
 #command line args
-ARGS=$@
-
-#project vars
-PROJECT_ID=fox-ims-pilot
-#PROJECT_ID=ims-script-testing
-LOCATION=us-west2
+QUERY=${1}
 
 #asset vars
-COMPLEXTYPE_ID=newsclip
-ASSETTYPE_ID=newsclipfile
-# COMPLEXTYPE_ID=fxvideo
-# ASSETTYPE_ID=fxvideofile
+ASSETTYPE_ID=${2:-"newsclipfile"}
+
+#project vars
+LOCATION=${3:-"us-west2"}
+PROJECT_ID=${4:-$(gcloud config get project)}
 
 # NOTE: ARCHIVE can be one of "kttv", "wfld", "fmn" (aka MovieTone)
 ARCHIVE=kttv
@@ -24,7 +22,7 @@ authToken=$(gcloud auth application-default print-access-token)
 
 #search string
 QUERY_JSON=$(jq -n \
-                --arg qry "$ARGS" \
+                --arg qry "$QUERY" \
                 --arg ps "$PAGE_SIZE" \
                 '{ 
                     "query": $qry,

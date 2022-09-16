@@ -1,14 +1,15 @@
 #!/bin/bash
-
-#project vars
-PROJECT_ID=fox-ims-pilot
-LOCATION=us-west2
+# create-types.sh COMPLEX_TYPE ASSET_TYPE [LOCATION] [PROJECT_ID]
+# Create the complex and assets types in the system for use during ingestion
 
 #asset vars
-COMPLEXTYPE_ID=newsclip
-ASSETTYPE_ID=newsclipfile
+COMPLEXTYPE_ID=${1:-"newsclip"}
+ASSETTYPE_ID=${2:-"newsclipfile"}
 
-#type vars
+#project vars
+LOCATION=${3:-"us-west2"}
+PROJECT_ID=${4:-$(gcloud config get project)}
+
 # NOTE: archive field can be one of "KTTV", "WFLD", "FMN" (aka MovieTone)
 COMPLEXTYPE_JSON=$(jq -n \
     '{
