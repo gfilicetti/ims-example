@@ -7,9 +7,6 @@ IMS_BUCKET=${1:-"ims-assets-2"}
 ARCHIVE=${2:-"kttv"}
 ASSETTYPE_ID=${3:-"newsclipfile"}
 
-echo $ASSET_ID
-exit 0
-
 #project vars
 LOCATION=${4:-"us-central1"}
 PROJECT_ID=${5:-$(gcloud config get project)}
