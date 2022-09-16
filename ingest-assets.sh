@@ -7,6 +7,9 @@ IMS_BUCKET=${1:-"ims-assets-2"}
 ARCHIVE=${2:-"kttv"}
 ASSETTYPE_ID=${3:-"newsclipfile"}
 
+echo $ASSET_ID
+exit 0
+
 #project vars
 LOCATION=${4:-"us-central1"}
 PROJECT_ID=${5:-$(gcloud config get project)}
@@ -24,8 +27,8 @@ do
     # get only the path of the file, don't need bucket name
     STORAGE_INPUT_VIDEO=${curFile#gs://$IMS_BUCKET/$ARCHIVE/}
 
-    # create a sequential id that's always 4 digits wide
-    ASSET_ID=$(printf "%04d" $i)
+    # create a sequential id that's always 4 digits wide and prefaced by the archive name
+    ASSET_ID="${ARCHIVE}-$(printf "%04d" $i)"
 
     # use the create time of the file in storage
     CREATE_TIME=$(gsutil ls -l gs://$IMS_BUCKET/$ARCHIVE/$STORAGE_INPUT_VIDEO | awk {'print $2'} | head -c -2)
