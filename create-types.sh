@@ -7,7 +7,7 @@ COMPLEXTYPE_ID=${1:-"newsclip"}
 ASSETTYPE_ID=${2:-"newsclipfile"}
 
 #project vars
-LOCATION=${3:-"us-west2"}
+LOCATION=${3:-"us-central1"}
 PROJECT_ID=${4:-$(gcloud config get project)}
 
 # NOTE: archive field can be one of "KTTV", "WFLD", "FMN" (aka MovieTone)

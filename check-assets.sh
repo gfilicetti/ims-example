@@ -7,7 +7,7 @@ NUM_ASSETS=${1:-"2"}
 ASSETTYPE_ID=${2:-"newsclipfile"}
 
 #project vars
-LOCATION=${3:-"us-west2"}
+LOCATION=${3:-"us-central1"}
 PROJECT_ID=${4:-$(gcloud config get project)}
 
 #authToken

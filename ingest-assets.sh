@@ -8,7 +8,7 @@ ARCHIVE=${2:-"kttv"}
 ASSETTYPE_ID=${3:-"newsclipfile"}
 
 #project vars
-LOCATION=${4:-"us-west2"}
+LOCATION=${4:-"us-central1"}
 PROJECT_ID=${5:-$(gcloud config get project)}
 
 #authToken
