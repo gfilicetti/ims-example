@@ -18,11 +18,11 @@ printf "===============================\n"
 printf "== CHECKING STATUS ON ASSETS ==\n"
 printf "===============================\n"
 
-for (( j = ${NUM_ASSETS}; j>0; j--)) 
+for i in $(seq ${NUM_ASSETS})
 do
-    ASSET_ID="${ARCHIVE}-$(printf "%04d" $j)"
+    ASSET_ID="${ARCHIVE}-$(printf "%04d" $i)"
 
-    curl -X GET -H "Authorization: Bearer $authToken" \
-    "https://mediaasset.googleapis.com/v1/projects/$PROJECT_ID/locations/$LOCATION/assetTypes/$ASSETTYPE_ID/assets/$ASSET_ID/actions"
+    curl -s -X GET -H "Authorization: Bearer $authToken" \
+        "https://mediaasset.googleapis.com/v1/projects/$PROJECT_ID/locations/$LOCATION/assetTypes/$ASSETTYPE_ID/assets/$ASSET_ID/actions" |
+            jq -r '.actions[] | select (.name | contains("media_indexer")) | {name,state} | join(" --> ")' 
 done
-
