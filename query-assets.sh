@@ -6,15 +6,15 @@
 #command line args
 QUERY=${1}
 
+# how many results to return
+PAGE_SIZE=${2:-2000}
+
 #asset vars
-ASSETTYPE_ID=${2:-"newsclipfile"}
+ASSETTYPE_ID=${3:-"newsclipfile"}
 
 #project vars
-LOCATION=${3:-"us-central1"}
-PROJECT_ID=${4:-$(gcloud config get project)}
-
-# how many results to return
-PAGE_SIZE=10
+LOCATION=${4:-"us-central1"}
+PROJECT_ID=${5:-$(gcloud config get project)}
 
 # get the authToken
 authToken=$(gcloud auth application-default print-access-token)
