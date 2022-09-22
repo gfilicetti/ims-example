@@ -25,6 +25,7 @@ authToken=$(gcloud auth application-default print-access-token)
 RED=$'\e[1;31m'
 GREEN=$'\e[1;32m'
 YELLOW=$'\e[1;33m'
+WHITE=$'\e[1;37m'
 RESET=$'\e[0m'
 
 #conversion function for seconds to mm:ss
@@ -112,6 +113,6 @@ do
     printf "==========\n"
 
     # convert start and end times from total seconds to mm:ss and output them
-    printf "Segment: ${GREEN}$(convertAndPrintSeconds ${startTime})${RESET} --> ${RED}$(convertAndPrintSeconds $endTime)${RESET}\n\n"
+    printf "Segment: ${GREEN}$(convertAndPrintSeconds ${startTime})${RESET} ${WHITE}--->${RESET} ${RED}$(convertAndPrintSeconds $endTime)${RESET}\n\n"
 
 done
