@@ -19,6 +19,14 @@ PAGE_SIZE=10
 # get the authToken
 authToken=$(gcloud auth application-default print-access-token)
 
+# colour constants
+# https://www.shellhacks.com/bash-colors/
+# https://linuxhint.com/bash_test_background_colors/
+RED=$'\e[1;31m'
+GREEN=$'\e[1;32m'
+YELLOW=$'\e[1;33m'
+RESET=$'\e[0m'
+
 #conversion function for seconds
 convertAndPrintSeconds() {
     local totalSeconds=$1;
@@ -75,6 +83,6 @@ do
     printf "Asset: ${assetResults[$curIndex]}\n"
 
     # convert start and end times from total seconds to mm:ss and output them
-    printf "Segment: $(convertAndPrintSeconds $startTime) --> $(convertAndPrintSeconds $endTime)\n"
+    printf "Segment: ${GREEN}$(convertAndPrintSeconds ${startTime})${RESET} --> ${RED}$(convertAndPrintSeconds $endTime)${RESET}\n\n"
 
 done
