@@ -67,7 +67,7 @@ do
     printf "== CALLING API ==\n"
 
     curl -X POST \
-    -H "Authorization: Bearer "$(gcloud auth application-default print-access-token) \
+    -H "Authorization: Bearer $authToken" \
     -H "Content-Type: application/json; charset=utf-8" \
     -d  "$JSON_STRING" \
     "https://mediaasset.googleapis.com/v1/projects/$PROJECT_ID/locations/$LOCATION/assetTypes/$ASSETTYPE_ID/assets?asset_id=$ASSET_ID"
