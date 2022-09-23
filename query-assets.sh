@@ -60,9 +60,9 @@ queryResults=$(curl -s -X POST \
     "https://mediaasset.googleapis.com/v1/projects/$PROJECT_ID/locations/$LOCATION/assetTypes/$ASSETTYPE_ID:search")
     
 # print raw results
-printf "===================\n"
-printf "== QUERY RESULTS ==\n"
-printf "===================\n"
+printf "=======================\n"
+printf "== RAW QUERY RESULTS ==\n"
+printf "=======================\n"
 echo $queryResults | jq
 
 # use outer parens to put results into an array
@@ -72,6 +72,11 @@ endSegmentResults=($(echo $queryResults | jq -rc '.items[].segments[] | .endOffs
 
 # all the arrays will be the same length, so just get one of them
 resultLength=${#assetResults[@]}
+
+# print number of results
+printf "=========================\n"
+printf "== NUM OF RESULTS: $(printf '%03d' ${resultLength}) ==\n"
+printf "=========================\n"
 
 # loop through the number of results (in numbers)
 for i in $(seq $resultLength)
