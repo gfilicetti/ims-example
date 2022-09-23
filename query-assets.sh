@@ -9,12 +9,16 @@ QUERY=${1}
 # how many results to return
 PAGE_SIZE=${2:-2000}
 
+# output format
+# can be one of: Visual, CSV, Json
+OUTPUT_FORMAT=${3:-"Visual"}
+
 #asset vars
-ASSETTYPE_ID=${3:-"newsclipfile"}
+ASSETTYPE_ID=${4:-"newsclipfile"}
 
 #project vars
-LOCATION=${4:-"us-central1"}
-PROJECT_ID=${5:-$(gcloud config get project)}
+LOCATION=${5:-"us-central1"}
+PROJECT_ID=${6:-$(gcloud config get project)}
 
 # get the authToken
 authToken=$(gcloud auth application-default print-access-token)
@@ -28,7 +32,10 @@ YELLOW=$'\e[1;33m'
 WHITE=$'\e[1;37m'
 RESET=$'\e[0m'
 
-#conversion function for seconds to mm:ss
+# print function for stderr (saves our stdout to CSV output only)
+printerr() { printf "%s\n" "$*" >&2; }
+
+#conversion function for seconds to hh:mm:ss
 convertAndPrintSeconds() {
     local totalSeconds=$1;
     local seconds=$((totalSeconds%60));
@@ -37,6 +44,58 @@ convertAndPrintSeconds() {
     printf '%02d:' $hours;
     printf '%02d:' $minutes;
     printf '%02d\n' $seconds;
+}
+
+printVisual() {
+    local assetId=$1;
+    local assetBucket=$2;
+    local assetFileName=$3;
+    local startTime=$4;
+    local endTime=$5;
+
+    # print asset info
+    printf "===============\n";
+    printf "Asset Id: ${assetId}\n";
+    printf "===============\n";
+
+    # print bucket & filename
+    printf "Bucket: ${assetBucket}\n";
+    printf "Asset File: ${assetFileName}\n";
+    printf "===============\n";
+
+    # convert start and end times from total seconds to mm:ss and output them
+    printf "Segment: ${GREEN}${startTime}${RESET} ${WHITE}--->${RESET} ${RED}${endTime}${RESET}\n\n";
+}
+
+printCSV() {
+    local assetId=$1;
+    local assetBucket=$2;
+    local assetFileName=$3;
+    local startTime=$4;
+    local endTime=$5;
+    local startSeconds=$6;
+    local endSeconds=$7;
+    local startRaw=$8;
+    local endRaw=$9;
+
+    # print the header only once
+    if [[ ! $headerPrinted ]] 
+    then
+        printf "id,bucket,filename,start_time,end_time,start_seconds,end_seconds,start_raw,end_raw\n"
+        headerPrinted="true"
+    fi
+
+    # print the current result
+    printf "${assetId},${assetBucket},${assetFileName},${startTime},${endTime},${startSeconds},${endSeconds},${startRaw},${endRaw}\n"
+
+}
+
+printJson() {
+    # we don't need any parameters, just assume the query was already called.
+    echo $queryResults | jq
+
+    # we know we only need to output the raw results once, so lets short-circuit the loop
+    break
 }
 
 #search string
@@ -48,10 +107,10 @@ QUERY_JSON=$(jq -n \
                     "pageSize": $ps
                 }' )
 
-printf "=====================\n"
-printf "== QUERYING ASSETS ==\n"
-printf "=====================\n"
-printf "$QUERY_JSON\n"
+printerr "====================="
+printerr "== QUERYING ASSETS =="
+printerr "====================="
+printerr "$QUERY_JSON"
 
 queryResults=$(curl -s -X POST \
     -H "Authorization: Bearer $authToken" \
@@ -59,12 +118,6 @@ queryResults=$(curl -s -X POST \
     -d "$QUERY_JSON" \
     "https://mediaasset.googleapis.com/v1/projects/$PROJECT_ID/locations/$LOCATION/assetTypes/$ASSETTYPE_ID:search")
     
-# print raw results
-printf "=======================\n"
-printf "== RAW QUERY RESULTS ==\n"
-printf "=======================\n"
-echo $queryResults | jq
-
 # use outer parens to put results into an array
 assetResults=($(echo $queryResults | jq -rc '.items[].asset'))
 startSegmentResults=($(echo $queryResults | jq -rc '.items[].segments[] | .startOffset'))
@@ -74,9 +127,9 @@ endSegmentResults=($(echo $queryResults | jq -rc '.items[].segments[] | .endOffs
 resultLength=${#assetResults[@]}
 
 # print number of results
-printf "=========================\n"
-printf "== NUM OF RESULTS: $(printf '%03d' ${resultLength}) ==\n"
-printf "=========================\n"
+printerr "========================="
+printerr "== NUM OF RESULTS: $(printf '%03d' ${resultLength}) =="
+printerr "========================="
 
 # loop through the number of results (in numbers)
 for i in $(seq $resultLength)
@@ -103,21 +156,25 @@ do
     assetFileName=$(echo $assetResults | jq -rc '.metadata.video_file.object')
     assetBucket=$(echo $assetResults | jq -rc '.metadata.video_file.bucket')
 
-    # lop off any fractional seconds, we don't need them
-    startTime=${startSegmentResults[$curIndex]%"."*[0-9]"s"}
-    endTime=${endSegmentResults[$curIndex]%"."*[0-9]"s"}
+    # make a bunch of conversions to the time segments
+    # raw has format of fractional seconds plus 's' suffix
+    # eg: 786.226432s
+    startRaw=${startSegmentResults[$curIndex]}
+    endRaw=${endSegmentResults[$curIndex]}
 
-    # print asset info
-    printf "==========\n"
-    printf "Asset Id: ${assetId}\n"
-    printf "==========\n"
+    # now we lop off the 's' suffix and lop off the fractional seconds
+    # first we remove the suffix, then we kill the decimal and all numbers after it
+    startSeconds=${startRaw%"s"}
+    startSeconds=${startSeconds%"."*[0-9]}
+    endSeconds=${endRaw%"s"}
+    endSeconds=${endSeconds%"."*[0-9]}
 
-    # print bucket & filename
-    printf "Bucket: ${assetBucket}\n"
-    printf "Asset File: ${assetFileName}\n"
-    printf "==========\n"
+    # now we take the seconds and convert to a readable format: hh:mm:ss
+    startTime=$(convertAndPrintSeconds ${startSeconds})
+    endTime=$(convertAndPrintSeconds ${endSeconds})
 
-    # convert start and end times from total seconds to mm:ss and output them
-    printf "Segment: ${GREEN}$(convertAndPrintSeconds ${startTime})${RESET} ${WHITE}--->${RESET} ${RED}$(convertAndPrintSeconds $endTime)${RESET}\n\n"
-
+    # the OUTPUT_FORMAT variable is used to construct the name of the printing function we need to call:
+    # printVisual, printCSV or printJson
+    print$OUTPUT_FORMAT ${assetId} ${assetBucket} ${assetFileName} ${startTime} ${endTime} ${startSeconds} ${endSeconds} ${startRaw} ${endRaw}
+    
 done
