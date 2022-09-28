@@ -1,7 +1,12 @@
 #!/bin/bash
-# query-assets.sh "QUERY STRING" ASSET_TYPE [LOCATION] [PROJECT_ID]
-# Queries IMS using the query string. Query string is expected as the first parameter 
-# so you must enclose the query in quotes
+# query-assets.sh "QUERY STRING" PAGE_SIZE, OUTPUT_FORMAT ASSET_TYPE [LOCATION] [PROJECT_ID]
+# Queries IMS using the query string. 
+# QUERY STRING: Must enclose the query in quotes because it is only the first parameter
+# PAGE_SIZE: The number of results to return per API call
+# OUTPUT_FORMAT: One of:
+#   Visual: output in a readable format
+#   CSV: output as CSV
+#   Json: output the raw Json output from the API call
 
 #command line args
 QUERY=${1}
@@ -123,7 +128,7 @@ assetResults=($(echo $queryResults | jq -rc '.items[].asset'))
 startSegmentResults=($(echo $queryResults | jq -rc '.items[].segments[] | .startOffset'))
 endSegmentResults=($(echo $queryResults | jq -rc '.items[].segments[] | .endOffset'))
 
-# all the arrays will be the same length, so just get one of them
+# all the arrays will be the same length, so just get the length of one of them
 resultLength=${#assetResults[@]}
 
 # print number of results
