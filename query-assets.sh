@@ -143,7 +143,14 @@ printHTML() {
                 <tr>
                     <td>${assetId}</td>
                     <td>${assetBucket}</td>
-                    <td><a href='https://storage.cloud.google.com/${assetBucket}/${assetFileName}'>${assetFileName}</a></td>
+                    <td>
+                        <a href='https://storage.cloud.google.com/${assetBucket}/${assetFileName}'>${assetFileName}</a>
+                        <br>
+                        <video width='320' height='240' controls>
+                            <source src='https://storage.cloud.google.com/${assetBucket}/${assetFileName}#t=${startSeconds},${endSeconds}'>
+                            Your browser does not support the video tag.
+                        </video>
+                    </td>
                     <td>${startTime}</td>
                     <td>${endTime}</td>
                     <td>${startSeconds}</td>
