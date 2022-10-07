@@ -6,6 +6,7 @@
 # OUTPUT_FORMAT: One of:
 #   Visual: output in a readable format
 #   CSV: output as CSV
+#   HTML: output as HTML
 #   Json: output the raw Json output from the API call
 
 #command line args
@@ -95,6 +96,64 @@ printCSV() {
 
 }
 
+printHTML() {
+    local assetId=$1;
+    local assetBucket=$2;
+    local assetFileName=$3;
+    local startTime=$4;
+    local endTime=$5;
+    local startSeconds=$6;
+    local endSeconds=$7;
+    local startRaw=$8;
+    local endRaw=$9;
+
+    # print the header only once
+    if [[ ! $headerPrinted ]] 
+    then
+        printf "
+<html>
+    <head>
+        <!-- CSS only -->
+        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi' crossorigin='anonymous'>
+    </head>
+    <body>
+        <h3>'${QUERY}'</h3>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>bucket</th>
+                    <th>filename</th>
+                    <th>start_time</th>
+                    <th>end_time</th>
+                    <th>start_seconds</th>
+                    <th>end_seconds</th>
+                    <th>start_raw</th>
+                    <th>end_raw</th>
+                </tr>
+            </thead>
+            <tbody>\n"
+
+        headerPrinted="true"
+
+    fi
+
+    # print the current result
+    printf "
+                <tr>
+                    <td>${assetId}</td>
+                    <td>${assetBucket}</td>
+                    <td><a href='https://storage.cloud.google.com/${assetBucket}/${assetFileName}'>${assetFileName}</a></td>
+                    <td>${startTime}</td>
+                    <td>${endTime}</td>
+                    <td>${startSeconds}</td>
+                    <td>${endSeconds}</td>
+                    <td>${startRaw}</td>
+                    <td>${endRaw}</td>
+                </tr>\n"
+                        
+}
+
 printJson() {
     # we don't need any parameters, just assume the query was already called.
     echo $queryResults | jq
@@ -181,5 +240,16 @@ do
     # the OUTPUT_FORMAT variable is used to construct the name of the printing function we need to call:
     # printVisual, printCSV or printJson
     print$OUTPUT_FORMAT ${assetId} ${assetBucket} ${assetFileName} ${startTime} ${endTime} ${startSeconds} ${endSeconds} ${startRaw} ${endRaw}
-    
+
 done
+
+# if we are HTML output, we need to output the footer
+if [ $OUTPUT_FORMAT == "HTML" ] 
+then
+    printf "
+            </tbody>
+        </table>
+    </body>
+</html>\n"
+fi
+    
