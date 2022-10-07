@@ -96,6 +96,7 @@ printCSV() {
 
 }
 
+# when printing HTML we aren't going to bother outputing seconds and raw seconds
 printHTML() {
     local assetId=$1;
     local assetBucket=$2;
@@ -126,10 +127,6 @@ printHTML() {
                     <th>filename</th>
                     <th>start_time</th>
                     <th>end_time</th>
-                    <th>start_seconds</th>
-                    <th>end_seconds</th>
-                    <th>start_raw</th>
-                    <th>end_raw</th>
                 </tr>
             </thead>
             <tbody>\n"
@@ -153,10 +150,6 @@ printHTML() {
                     </td>
                     <td>${startTime}</td>
                     <td>${endTime}</td>
-                    <td>${startSeconds}</td>
-                    <td>${endSeconds}</td>
-                    <td>${startRaw}</td>
-                    <td>${endRaw}</td>
                 </tr>\n"
                         
 }
