@@ -8,6 +8,11 @@
 #   CSV: output as CSV
 #   HTML: output as HTML
 #   Json: output the raw Json output from the API call
+#
+# ATTENTION!!!!
+# HTML output uses "authenticated URLs" to display video snippets. If you have "Audit Logging" turned on 
+# for Cloud Storage, you will run into issues. Please turn off all GCS audit logging (in the IAM screens) or 
+# create an exemption for your user to turn off all GCS audit logging.
 
 #command line args
 QUERY=${1}
