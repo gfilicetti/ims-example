@@ -10,7 +10,7 @@ ASSETTYPE_ID=${2:-"newsclipfile"}
 LOCATION=${3:-"us-central1"}
 PROJECT_ID=${4:-$(gcloud config get project)}
 
-# NOTE: archive field can be one of "KTTV", "WFLD", "FMN" (aka MovieTone)
+# NOTE: archive field can be one of any name of a grouping (ie: top level folder in your bucket)
 COMPLEXTYPE_JSON=$(jq -n \
     '{
         "fields": {

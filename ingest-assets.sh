@@ -4,7 +4,7 @@
 
 #asset vars
 IMS_BUCKET=${1:-"ims-assets-2"}
-ARCHIVE=${2:-"kttv"}
+ARCHIVE=${2:-"news"}
 ASSETTYPE_ID=${3:-"newsclipfile"}
 
 #project vars

@@ -21,7 +21,7 @@ QUERY=${1}
 PAGE_SIZE=${2:-2000}
 
 # output format
-# can be one of: Visual, CSV, Json
+# can be one of: Visual, CSV, Json, HTML
 OUTPUT_FORMAT=${3:-"Visual"}
 
 #asset vars
