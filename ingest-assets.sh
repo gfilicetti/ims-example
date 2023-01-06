@@ -11,9 +11,6 @@ ASSETTYPE_ID=${3:-"newsclipfile"}
 LOCATION=${4:-"us-central1"}
 PROJECT_ID=${5:-$(gcloud config get project)}
 
-#authToken
-authToken=$(gcloud auth application-default print-access-token)
-
 i=1
 
 printf "============================\n"
@@ -65,6 +62,10 @@ do
     # printf "Making API request with JSON: \n$JSON_STRING\n"
 
     printf "== CALLING API ==\n"
+
+    # get the authToken, we need to do this on every call in case this loop takes more than 
+    # the timeout of a token (default is 1 hour)
+    authToken=$(gcloud auth application-default print-access-token)
 
     curl -X POST \
     -H "Authorization: Bearer $authToken" \

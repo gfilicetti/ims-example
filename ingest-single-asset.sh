@@ -16,6 +16,7 @@ PROJECT_ID=${6:-$(gcloud config get project)}
 #authToken
 authToken=$(gcloud auth application-default print-access-token)
 
+# GF: hack is here, the number of the single asset to ingest
 i=500
 
 printf "===========================\n"
