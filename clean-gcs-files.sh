@@ -20,13 +20,17 @@ printf "== CLEAN FILE NAMES IN BUCKET: $BUCKET/$ARCHIVE ==\n"
 printf "==================================================\n"
 for curFile in $(gsutil ls -r gs://$BUCKET/$ARCHIVE/*)
 do 
+    # skip if the curFile ends in a slash. That means it's a directory.
     [[ $curFile == *\/ ]] && continue
 
     ORIGINAL_URL=$curFile
     FIXED_URL=${curFile// /_}
 
-    printf "$ORIGINAL_URL\n"
-    printf "$FIXED_URL\n"
+    if [[ $FIXED_URL == *_* ]]
+    then
+        printf "$FIXED_URL\n"
+    fi
+
     continue
 
     # if the current file is just a folder, then skip to the next file
