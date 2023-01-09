@@ -15,10 +15,10 @@ i=1
 printf "=========================================\n"
 printf "== CLEAN FILE NAMES IN BUCKET: $BUCKET ==\n" 
 printf "=========================================\n"
-for curFile in $(gsutil ls -r gs://$IMS_BUCKET/$ARCHIVE/*)
+for curFile in $(gsutil ls -r gs://$BUCKET/$ARCHIVE/*)
 do 
     # get only the path of the file, don't need bucket name
-    STORAGE_INPUT_VIDEO=${curFile#gs://$IMS_BUCKET/$ARCHIVE/}
+    STORAGE_INPUT_VIDEO=${curFile#gs://$BUCKET/$ARCHIVE/}
 
     # create a sequential id that's always 4 digits wide and prefaced by the archive name
     ASSET_ID="${ARCHIVE}-$(printf "%04d" $i)"
