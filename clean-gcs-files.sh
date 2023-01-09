@@ -20,6 +20,8 @@ printf "== CLEAN FILE NAMES IN BUCKET: $BUCKET/$ARCHIVE ==\n"
 printf "==================================================\n"
 for curFile in $(gsutil ls -r gs://$BUCKET/$ARCHIVE/*)
 do 
+    [[ $curFile == *\/ ]] && continue
+
     ORIGINAL_URL=$curFile
     FIXED_URL=${curFile// /_}
 
