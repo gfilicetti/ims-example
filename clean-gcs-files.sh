@@ -23,34 +23,19 @@ do
     # skip if the curFile ends in a slash. That means it's a directory.
     [[ $curFile == *\/ ]] && continue
 
-    if [[ $curFile == * * ]]
+    # only work on files that contain a space
+    if [[ $curFile == *\ * ]]
     then
-        printf "spaces detected: $ORIGINAL_URL\n"
+        ORIGINAL_URL=$curFile
+        FIXED_URL=${curFile// /_}
+
+        printf "================================\n"
+        printf "== REMOVING SPACES FROM FILE: ==\n"
+        printf "================================\n"
+        printf "Original Name: \t${ORIGINAL_URL} \n"
+        printf "Fixed Name: \t${FIXED_URL} \n"
+
+        printf "== WAITING FOR 1s ==\n"
+        sleep 1
     fi
-    continue
-
-    ORIGINAL_URL=$curFile
-    FIXED_URL=${curFile// /_}
-
-    if [[ $FIXED_URL == *_* ]]
-    then
-        printf "$FIXED_URL\n"
-    fi
-
-    continue
-
-    # if the current file is just a folder, then skip to the next file
-    # [[ ! $STORAGE_INPUT_VIDEO ]] && continue
-
-    printf "=================================\n"
-    printf "== Processing file: ${curFile} ==\n"
-    printf "=================================\n"
-    printf "Ingesting with: \n"
-    printf "\tassetID: ${ASSET_ID} \n"
-    printf "\tobject: $ARCHIVE/$STORAGE_INPUT_VIDEO \n"
-    printf "\tarchive: ${ARCHIVE}\n"
-
-    printf "== WAITING FOR 1s ==\n"
-    sleep 1
-
 done
