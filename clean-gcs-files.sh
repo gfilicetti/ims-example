@@ -23,6 +23,12 @@ do
     # skip if the curFile ends in a slash. That means it's a directory.
     [[ $curFile == *\/ ]] && continue
 
+    if [[ $curFile == * * ]]
+    then
+        printf "spaces detected: $ORIGINAL_URL\n"
+    fi
+    continue
+
     ORIGINAL_URL=$curFile
     FIXED_URL=${curFile// /_}
 
