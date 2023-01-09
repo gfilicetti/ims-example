@@ -1,14 +1,10 @@
 #!/bin/bash
-# clean-gcs-files.sh GCS_BUCKET_NAME ARCHIVE [LOCATION] [PROJECT_ID]
-# Ingest all the assets in the given GCS bucket in the folder name that matches ARCHIVE
+# clean-gcs-files.sh GCS_BUCKET_NAME ARCHIVE
+# Remove spaces from the name of any assets in the given GCS bucket in the folder name that matches ARCHIVE
 
 # cmd line vars
 BUCKET=${1:-"ims-assets-2"}
 ARCHIVE=${2:-"news"}
-
-#project vars
-LOCATION=${3:-"us-central1"}
-PROJECT_ID=${4:-$(gcloud config get project)}
 
 # set the delimiter to newline only, ignore the backspace
 # https://www.baeldung.com/linux/ifs-shell-variable
@@ -34,8 +30,11 @@ do
         printf "================================\n"
         printf "Original Name: \t${ORIGINAL_URL} \n"
         printf "Fixed Name: \t${FIXED_URL} \n"
+        
+        # make the call to gsutil to rename the file
+        gsutil -q mv $ORIGINAL_URL $FIXED_URL
 
-        printf "== WAITING FOR 1s ==\n"
+        printf "== WAITING FOR 1s ==\n\n"
         sleep 1
     fi
 done
