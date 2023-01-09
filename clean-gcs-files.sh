@@ -20,17 +20,15 @@ printf "== CLEAN FILE NAMES IN BUCKET: $BUCKET/$ARCHIVE ==\n"
 printf "==================================================\n"
 for curFile in $(gsutil ls -r gs://$BUCKET/$ARCHIVE/*)
 do 
-	printf "$curFile\n"
-    # get only the path of the file, don't need bucket name
-    STORAGE_INPUT_VIDEO=${curFile#gs://$BUCKET/$ARCHIVE/}
-    	printf "$STORAGE_INPUT_VIDEO\n"
-	continue 
+    ORIGINAL_URL=$curFile
+    FIXED_URL=${curFile// /_}
 
-    # create a sequential id that's always 4 digits wide and prefaced by the archive name
-    ASSET_ID="${ARCHIVE}-$(printf "%04d" $i)"
+    printf "$ORIGINAL_URL\n"
+    printf "$FIXED_URL\n"
+    continue
 
     # if the current file is just a folder, then skip to the next file
-    [[ ! $STORAGE_INPUT_VIDEO ]] && continue
+    # [[ ! $STORAGE_INPUT_VIDEO ]] && continue
 
     printf "=================================\n"
     printf "== Processing file: ${curFile} ==\n"
