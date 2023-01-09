@@ -10,7 +10,8 @@ ARCHIVE=${2:-"news"}
 LOCATION=${3:-"us-central1"}
 PROJECT_ID=${4:-$(gcloud config get project)}
 
-i=1
+# set the delimiter to newline only
+IFS="\n"
 
 printf "=========================================\n"
 printf "== CLEAN FILE NAMES IN BUCKET: $BUCKET ==\n" 
