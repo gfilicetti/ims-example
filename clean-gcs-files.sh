@@ -10,16 +10,21 @@ ARCHIVE=${2:-"news"}
 LOCATION=${3:-"us-central1"}
 PROJECT_ID=${4:-$(gcloud config get project)}
 
-# set the delimiter to newline only
-IFS="\n"
+# set the delimiter to newline only, ignore the backspace
+# https://www.baeldung.com/linux/ifs-shell-variable
+# https://stackoverflow.com/questions/16831429/when-setting-ifs-to-split-on-newlines-why-is-it-necessary-to-include-a-backspac
+IFS=$(echo -en "\n\b")
 
-printf "=========================================\n"
-printf "== CLEAN FILE NAMES IN BUCKET: $BUCKET ==\n" 
-printf "=========================================\n"
+printf "==================================================\n"
+printf "== CLEAN FILE NAMES IN BUCKET: $BUCKET/$ARCHIVE ==\n" 
+printf "==================================================\n"
 for curFile in $(gsutil ls -r gs://$BUCKET/$ARCHIVE/*)
 do 
+	printf "$curFile\n"
     # get only the path of the file, don't need bucket name
     STORAGE_INPUT_VIDEO=${curFile#gs://$BUCKET/$ARCHIVE/}
+    	printf "$STORAGE_INPUT_VIDEO\n"
+	continue 
 
     # create a sequential id that's always 4 digits wide and prefaced by the archive name
     ASSET_ID="${ARCHIVE}-$(printf "%04d" $i)"
